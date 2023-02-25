@@ -1,5 +1,3 @@
-export const getFilter = ({filter}) => filter;
-
 export const getFilterContacts = ({contacts, filter}) => {
 
   if (!filter) {

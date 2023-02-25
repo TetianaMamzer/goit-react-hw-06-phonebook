@@ -7,8 +7,11 @@ import Form from './phoneBook/Form';
 import PhoneBookList from './phoneBook/PhoneBookList';
 import Filter from './phoneBook/Filter';
 
-import { addContact, deleteContact, setFilter } from 'redux/actions';
-import { getFilter, getFilterContacts } from 'redux/selectors';
+import { addContact, deleteContact } from 'redux/contacts/contatcs-slice'; 
+import { getFilterContacts } from 'redux/contacts/contacts-selectors';
+
+import { getFilter } from 'redux/filter/filter-selectors'; 
+import { setFilter } from 'redux/filter/filter-slice'; 
 
 import Notiflix from 'notiflix';
 
@@ -36,10 +39,10 @@ Notiflix.Notify.init({
 });
 
 export default function PhoneBook() {
-  const contacts = useSelector(getFilterContacts);
+  const contacts = useSelector(store => store.contacts);
+  const visibleContacts = useSelector(getFilterContacts);
   const filter = useSelector(getFilter);
   const dispatch = useDispatch();
-console.log(contacts)
 
   const onAddContact = ({name, number}) => {
         for (let i = 0; i < contacts.length; i++) {
@@ -72,7 +75,7 @@ console.log(contacts)
               onChange={({ target }) => dispatch(setFilter(target.value))}
             />
             <PhoneBookList
-              contacts={contacts}
+              contacts={visibleContacts}
               type="button"
               text="delete"
               onClick={onDeleteContact}
